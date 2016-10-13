@@ -22,4 +22,12 @@ public class Character {
 	public Character getNext(){
 		return this.next;
 	}
+
+	public void setNext(Character next) {
+		this.next = next;
+	}
+
+	public void setPrevious(Character previous) {
+		this.previous = previous;
+	}
 }

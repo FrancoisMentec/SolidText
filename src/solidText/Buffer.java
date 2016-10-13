@@ -1,21 +1,28 @@
 package solidText;
 
 public class Buffer {
-	private Character first;
-	private Character startSelect;
-	private Character stopSelect;
+	private String text = "";
+	private int startSelect = 0;
+	private int endSelect = 0;
 	
 	public Buffer(){
 		
 	}
 	
 	public String toString(){
-		String str = "";
-		Character current = first;
-		while(current!=null){
-			str += current.getChar();
-			current = current.getNext();
-		}
-		return str;
+		return text;
+	}
+
+	public void addText(String text) {
+		this.text = this.text.substring(0, startSelect) + text + this.text.substring(endSelect);
+		startSelect += text.length();
+		endSelect = startSelect;
+	}
+
+	public void remove() {
+		startSelect = startSelect-1;
+		if(startSelect<0) startSelect = 0;
+		this.text = this.text.substring(0, startSelect) + this.text.substring(endSelect);
+		endSelect = startSelect;
 	}
 }
