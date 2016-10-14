@@ -1,3 +1,3 @@
-# ${1:Project Name}
+# SolidText
 
 A simple text editor
