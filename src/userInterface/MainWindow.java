@@ -28,5 +28,11 @@ public class MainWindow extends Stage{
 					textEditor.handleKeyEvent(k);
 				}
         	});
+        
+        this.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent k) {
+				textEditor.handleKeyEvent(k);
+			}
+    	});
 	}
 }
