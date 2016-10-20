@@ -11,4 +11,10 @@ public class CommandRemove extends Command{
 	public void execute() {
 		buffer.remove();
 	}
+
+	@Override
+	public void revert() {
+		// TODO Auto-generated method stub
+		
+	}
 }

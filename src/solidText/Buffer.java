@@ -1,7 +1,5 @@
 package solidText;
 
-import java.util.ArrayList;
-
 public class Buffer {
 	public static final String CSS_STYLE = "<style>"
 			+ "body{"
@@ -142,7 +140,7 @@ public class Buffer {
 			
 			
 			if(c=='\r' || c=='\n'){
-				//Gestion du retour à ligne
+				//Gestion du retour ï¿½ ligne
 				if(inSelect){
 					line += "</span>";
 				}
@@ -157,14 +155,14 @@ public class Buffer {
 				
 				line = "";
 				if(!inSelect){
-					currentLine = false;//Seul endroit où current line peut-être mit à false
+					currentLine = false;//Seul endroit oï¿½ current line peut-ï¿½tre mit ï¿½ false
 				}
 				
 				if(inSelect){
 					line += "<span class=\"selection\">";
 				}
 			}else{
-				line += c;//Affichage du caractère
+				line += c;//Affichage du caractï¿½re
 			}
 			
 			//Affichage du curseur
@@ -174,7 +172,7 @@ public class Buffer {
 			}
 		}
 		
-		//Affichage de la dernière ligne (hors du for)
+		//Affichage de la derniï¿½re ligne (hors du for)
 		if(currentLine){
 			html += "<div class=\"line current-line\">";
 		}else{
@@ -183,7 +181,7 @@ public class Buffer {
 		html += "<span class=\"line-number\">" + nbLine + "</span>" + line + "</div>";
 		nbLine++;
 		
-		//Concaténation du contenu avec le reste de la vue
+		//Concatï¿½nation du contenu avec le reste de la vue
 		html = "<html>" + CSS_STYLE + "<body>" + html + "</body></html>";
 		return html;
 	}

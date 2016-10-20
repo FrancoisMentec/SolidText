@@ -27,4 +27,10 @@ public class CommandMove extends Command{
 		}
 	}
 
+	@Override
+	public void revert() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
