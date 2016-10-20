@@ -1,6 +1,8 @@
 package solidText;
 
-public class Buffer {
+import java.util.Observable;
+
+public class Buffer extends Observable{
 	public static final String CSS_STYLE = "<style>"
 			+ "body{"
 				+ "white-space: pre;"
@@ -79,6 +81,8 @@ public class Buffer {
 		if(end>text.length()) end = text.length();
 		startSelect = start;
 		endSelect = end;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	public int getLength() {
@@ -99,6 +103,8 @@ public class Buffer {
 		this.text = this.text.substring(0, startSelect) + text + this.text.substring(endSelect);
 		startSelect += text.length();
 		endSelect = startSelect;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public void remove() {
@@ -106,6 +112,8 @@ public class Buffer {
 		if(startSelect<0) startSelect = 0;
 		this.text = this.text.substring(0, startSelect) + this.text.substring(endSelect);
 		endSelect = startSelect;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public String toHtml() {
@@ -185,4 +193,5 @@ public class Buffer {
 		html = "<html>" + CSS_STYLE + "<body>" + html + "</body></html>";
 		return html;
 	}
+	
 }

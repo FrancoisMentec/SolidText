@@ -1,27 +1,29 @@
 package solidText;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
 
+import command.Command;
+import command.CommandAddText;
+import command.CommandManager;
+import command.CommandMove;
+import command.CommandMoveSelect;
+import command.CommandRemove;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
-import command.Command;
-import command.CommandAddText;
-import command.CommandMove;
-import command.CommandMoveSelect;
-import command.CommandRemove;
 
-public class TextEditor {
+public class TextEditor implements Observer{
 	private Buffer buffer;
-	private Collection<Command> commandList;
+	private CommandManager cmdM;
 	private WebView view;
 	private boolean shift = false;
 	
 	public TextEditor(){
+		cmdM = new CommandManager();
 		buffer = new Buffer();
-		commandList = new ArrayList<Command>();
+		buffer.addObserver(this);
 		view = new WebView();
 		updateView();
 	}
@@ -43,11 +45,15 @@ public class TextEditor {
 		return view;
 	}
 
-	public void executeCommand(Command command){
+	/*public void executeCommand(Command command){
 		this.commandList.add(command);
 		command.execute();
 		
 		updateView();
+	}*/
+	
+	public void update(Observable o, Object arg) {
+		this.updateView();		
 	}
 	
 	public void handleKeyEvent(KeyEvent k) {
@@ -55,27 +61,27 @@ public class TextEditor {
 		
 		if(k.getEventType() == KeyEvent.KEY_PRESSED){
 			if(k.getCode()==KeyCode.LEFT){
-				if(shift) this.executeCommand(new CommandMoveSelect(buffer, Command.LEFT));
-				else this.executeCommand(new CommandMove(buffer, Command.LEFT));
+				if(shift) this.cmdM.executeCommand(new CommandMoveSelect(buffer, Command.LEFT));
+				else this.cmdM.executeCommand(new CommandMove(buffer, Command.LEFT));
 			}else if(k.getCode()==KeyCode.RIGHT){
-				if(shift) this.executeCommand(new CommandMoveSelect(buffer, Command.RIGHT));
-				else this.executeCommand(new CommandMove(buffer, Command.RIGHT));
+				if(shift) this.cmdM.executeCommand(new CommandMoveSelect(buffer, Command.RIGHT));
+				else this.cmdM.executeCommand(new CommandMove(buffer, Command.RIGHT));
 			}else if(k.getCode()==KeyCode.UP){
-				if(shift) this.executeCommand(new CommandMoveSelect(buffer, Command.UP));
-				else this.executeCommand(new CommandMove(buffer, Command.UP));
+				if(shift) this.cmdM.executeCommand(new CommandMoveSelect(buffer, Command.UP));
+				else this.cmdM.executeCommand(new CommandMove(buffer, Command.UP));
 			}else if(k.getCode()==KeyCode.DOWN){
-				if(shift) this.executeCommand(new CommandMoveSelect(buffer, Command.DOWN));
-				else this.executeCommand(new CommandMove(buffer, Command.DOWN));
+				if(shift) this.cmdM.executeCommand(new CommandMoveSelect(buffer, Command.DOWN));
+				else this.cmdM.executeCommand(new CommandMove(buffer, Command.DOWN));
 			}else if(k.getCode()==KeyCode.END){
-				this.executeCommand(new CommandMove(buffer, Command.END));
+				this.cmdM.executeCommand(new CommandMove(buffer, Command.END));
 			}else if(k.getCode()==KeyCode.SHIFT){
 				shift = true;
 			}else if(k.getCode()==KeyCode.BACK_SPACE){
-				this.executeCommand(new CommandRemove(buffer));
+				this.cmdM.executeCommand(new CommandRemove(buffer));
 			}else{
 				String text = k.getText();
 				if(shift) text = text.toUpperCase();
-				this.executeCommand(new CommandAddText(buffer, text));
+				this.cmdM.executeCommand(new CommandAddText(buffer, text));
 			}
 		}else if(k.getEventType() == KeyEvent.KEY_RELEASED){
 			if(k.getCode()==KeyCode.SHIFT){
@@ -83,4 +89,5 @@ public class TextEditor {
 			}
 		}
 	}
+
 }
