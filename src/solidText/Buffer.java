@@ -57,12 +57,12 @@ public class Buffer extends Observable{
 			+ "}"
 			+ "</style>";
 	
-	private String text = "";
+	private StringBuffer text;
 	private int startSelect = 0;
 	private int endSelect = 0;
 	
 	public Buffer(){
-		
+		text = new StringBuffer("");
 	}
 	
 	public int getStartSelect() {
@@ -90,7 +90,7 @@ public class Buffer extends Observable{
 	}
 	
 	public String toString(){
-		return text;
+		return text.toString();
 	}
 	
 	public boolean inSelect(int pos){
@@ -100,7 +100,7 @@ public class Buffer extends Observable{
 	public void addText(String text) {
 		//System.out.println("Add text ["+text+"]");
 		//System.out.println("start="+startSelect+"  end="+endSelect);
-		this.text = this.text.substring(0, startSelect) + text + this.text.substring(endSelect);
+		this.text.insert(startSelect, text); // = this.text.substring(0, startSelect) + text + this.text.substring(endSelect);
 		startSelect += text.length();
 		endSelect = startSelect;
 		this.setChanged();
@@ -110,7 +110,15 @@ public class Buffer extends Observable{
 	public void remove() {
 		startSelect = startSelect-1;
 		if(startSelect<0) startSelect = 0;
-		this.text = this.text.substring(0, startSelect) + this.text.substring(endSelect);
+		if(endSelect < startSelect) {
+			int t = startSelect;
+			startSelect = endSelect;
+			endSelect = t;
+		}
+		if((endSelect - startSelect) > 1) {
+			endSelect++;
+		}
+		this.text.delete(startSelect, endSelect); // = this.text.substring(0, startSelect) + this.text.substring(endSelect);
 		endSelect = startSelect;
 		this.setChanged();
 		this.notifyObservers();
