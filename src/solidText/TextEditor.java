@@ -79,7 +79,9 @@ public class TextEditor implements Observer{
 			}else if(k.getCode()==KeyCode.END){
 				this.cmdM.executeCommand(new CommandMove(buffer, Command.END));
 			}else if(k.getCode()==KeyCode.BACK_SPACE){
-				this.cmdM.executeCommand(new CommandRemove(buffer));
+				this.cmdM.executeCommand(new CommandRemove(buffer, CommandRemove.LEFT));
+			}else if(k.getCode()==KeyCode.DELETE){
+				this.cmdM.executeCommand(new CommandRemove(buffer, CommandRemove.RIGHT));
 			}else{
 				if(k.isControlDown() && k.getCode()==KeyCode.C){
 					this.cmdM.executeCommand(new CommandCopy(buffer));
@@ -94,6 +96,7 @@ public class TextEditor implements Observer{
 				}
 			}
 		}
+		
 	}
 
 }

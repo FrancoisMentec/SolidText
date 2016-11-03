@@ -6,6 +6,7 @@ public class Buffer extends Observable{
 	public static final String CSS_STYLE = "<style>"
 			+ "body{"
 				+ "white-space: pre;"
+				+ "overflow: auto;"
 			+ "}"
 			+ ""
 			+ ".line{"
@@ -164,9 +165,8 @@ public class Buffer extends Observable{
 			
 			this.setChanged();
 			this.notifyObservers();
-		}else if(side==RIGHT && startSelect<text.length()-1){
+		}else if(side==RIGHT && startSelect<text.length()){
 			this.text.delete(startSelect, startSelect + 1);
-			endSelect = ++startSelect;
 			
 			this.setChanged();
 			this.notifyObservers();
