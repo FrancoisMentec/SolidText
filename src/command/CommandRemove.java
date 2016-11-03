@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandRemove extends Command{
+public class CommandRemove extends Command implements Reversible{
 
 	public CommandRemove(Buffer buffer) {
 		super(buffer);

@@ -57,6 +57,8 @@ public class Buffer extends Observable{
 			+ "}"
 			+ "</style>";
 	
+	public static final int LEFT = 0, RIGHT = 1;
+	
 	private StringBuffer text;
 	private int startSelect = 0;
 	private int endSelect = 0;
@@ -67,6 +69,16 @@ public class Buffer extends Observable{
 	
 	public int getStartSelect() {
 		return startSelect;
+	}
+	
+	//Get the first select pos encounter (start or end)
+	public int getFirst(){
+		return Math.min(this.startSelect, this.endSelect);
+	}
+	
+	//Get the last select pos encounter (start or end)
+	public int getLast(){
+		return Math.max(this.startSelect, this.endSelect);
 	}
 	
 	public int getEndSelect() {
@@ -97,17 +109,71 @@ public class Buffer extends Observable{
 		return pos>=Math.min(startSelect, endSelect) && pos<=Math.max(startSelect, endSelect);
 	}
 
-	public void addText(String text) {
+	/*public void addText(String text) {
 		//System.out.println("Add text ["+text+"]");
 		//System.out.println("start="+startSelect+"  end="+endSelect);
+		if(startSelect!=endSelect) remove(); //Remove selection
 		this.text.insert(startSelect, text); // = this.text.substring(0, startSelect) + text + this.text.substring(endSelect);
 		startSelect += text.length();
 		endSelect = startSelect;
 		this.setChanged();
 		this.notifyObservers();
+	}*/
+	
+	//Remove the selection
+	public void removeSelection(){
+		int start = getFirst();
+		int end = getLast();
+		this.text.delete(start, end);
+		startSelect = endSelect = start;
+		
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	//Replace the selection
+	public void replaceSelection(String text){
+		int start = getFirst();
+		int end = getLast();
+		this.text.delete(start, end);
+		this.text.insert(start, text);
+		startSelect = endSelect = start + text.length();
+		
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	/**
+	 * Remove current selection, previous char or next char
+	 * If selection remove it
+	 * else
+	 * 	If No param or side=LEFT remove previous
+	 * 	Else remove next
+	 */
+	public void remove(){ remove(LEFT); }
+	
+	public void remove(int side){
+		if(startSelect != endSelect){
+			removeSelection();
+			
+			this.setChanged();
+			this.notifyObservers();
+		}else if(side==LEFT && startSelect>0){
+			this.text.delete(startSelect - 1, startSelect);
+			endSelect = --startSelect;
+			
+			this.setChanged();
+			this.notifyObservers();
+		}else if(side==RIGHT && startSelect<text.length()-1){
+			this.text.delete(startSelect, startSelect + 1);
+			endSelect = ++startSelect;
+			
+			this.setChanged();
+			this.notifyObservers();
+		}
 	}
 
-	public void remove() {
+	/*public void remove() {
 		startSelect = startSelect-1;
 		if(startSelect<0) startSelect = 0;
 		if(endSelect < startSelect) {
@@ -122,6 +188,16 @@ public class Buffer extends Observable{
 		endSelect = startSelect;
 		this.setChanged();
 		this.notifyObservers();
+	}*/
+	
+	public String getSelectedText() {
+		String r = "";
+		int start = Math.min(startSelect, endSelect);
+		int end = Math.max(startSelect, endSelect);
+		if(end-start != 0){
+			r = text.substring(start, end);
+		}
+		return r;
 	}
 
 	public String toHtml() {
