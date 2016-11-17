@@ -13,7 +13,9 @@ public class CommandManager {
 	
 	public void executeCommand(Command cmd) {
 		cmd.execute();
-		commandList.add(cmd);
+		if(cmd instanceof Reversible){
+			commandList.add(cmd);
+		}
 	}
 	
 }

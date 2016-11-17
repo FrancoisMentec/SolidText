@@ -2,14 +2,18 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandRemove extends Command{
-
-	public CommandRemove(Buffer buffer) {
+public class CommandRemove extends Command implements Reversible{
+	public static final int LEFT = 0, RIGHT = 1;
+	
+	private int side;
+	
+	public CommandRemove(Buffer buffer, int side) {
 		super(buffer);
+		this.side = side;
 	}
 
 	public void execute() {
-		buffer.remove();
+		buffer.remove(side);
 	}
 
 	@Override

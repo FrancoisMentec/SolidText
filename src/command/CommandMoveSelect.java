@@ -24,10 +24,4 @@ public class CommandMoveSelect extends Command{
 		}
 	}
 
-	@Override
-	public void revert() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

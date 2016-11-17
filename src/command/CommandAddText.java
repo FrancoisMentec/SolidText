@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandAddText extends Command{
+public class CommandAddText extends Command implements Reversible{
 	
 	private String text;
 	
@@ -14,7 +14,7 @@ public class CommandAddText extends Command{
 	}
 
 	public void execute() {
-		buffer.addText(text);
+		buffer.replaceSelection(text);
 		endSelect = buffer.getEndSelect();
 	}
 

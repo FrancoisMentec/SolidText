@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandMove extends Command{
+public class CommandMove extends Command implements Reversible{
 	
 	private int direction;
 
