@@ -8,6 +8,7 @@ public class CommandAddText extends Command implements Reversible{
 	
 	private int startSelect;
 	private int endSelect;
+	private String oldContent;
 	private int endSelectAfterExecute;
 	
 	public CommandAddText(Buffer buffer, String text) {
@@ -15,6 +16,7 @@ public class CommandAddText extends Command implements Reversible{
 		this.text = text;
 		this.startSelect = buffer.getStartSelect();
 		this.endSelect = buffer.getEndSelect();
+		this.oldContent = buffer.getSelectedText();
 	}
 
 	public void execute() {
@@ -25,7 +27,7 @@ public class CommandAddText extends Command implements Reversible{
 
 	public void revert() {
 		buffer.setSelect(endSelectAfterExecute-text.length(), endSelectAfterExecute);
-		buffer.remove();
+		buffer.replaceSelection(this.oldContent);
 	}
 
 }
