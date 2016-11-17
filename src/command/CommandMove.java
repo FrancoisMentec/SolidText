@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandMove extends Command implements Reversible{
+public class CommandMove extends Command{
 	
 	private int direction;
 
@@ -25,12 +25,6 @@ public class CommandMove extends Command implements Reversible{
 			System.out.println("plop");
 			buffer.setSelect(buffer.getLength(), buffer.getLength());
 		}
-	}
-
-	@Override
-	public void revert() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

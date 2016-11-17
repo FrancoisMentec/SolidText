@@ -15,11 +15,4 @@ public class CommandCopy extends Command {
 			ClipboardManager.setContent(content);
 		}
 	}
-
-	public void revert() {
-		//nothing
-	}
-	
-	
-
 }

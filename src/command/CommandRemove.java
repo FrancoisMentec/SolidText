@@ -6,19 +6,26 @@ public class CommandRemove extends Command implements Reversible{
 	public static final int LEFT = 0, RIGHT = 1;
 	
 	private int side;
+	private int startSelect;
+	private int endSelect;
+	private String oldContent;
+	private int selectAfterExecute;
 	
 	public CommandRemove(Buffer buffer, int side) {
 		super(buffer);
 		this.side = side;
+		this.startSelect = buffer.getStartSelect();
+		this.endSelect = buffer.getEndSelect();
 	}
 
 	public void execute() {
-		buffer.remove(side);
+		buffer.setSelect(this.startSelect, this.endSelect);
+		this.oldContent = buffer.remove(side);
+		this.selectAfterExecute = buffer.getStartSelect();
 	}
 
-	@Override
 	public void revert() {
-		// TODO Auto-generated method stub
-		
+		buffer.setSelect(this.selectAfterExecute, this.selectAfterExecute);
+		buffer.replaceSelection(this.oldContent);
 	}
 }

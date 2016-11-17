@@ -87,6 +87,10 @@ public class TextEditor implements Observer{
 					this.cmdM.executeCommand(new CommandCopy(buffer));
 				}else if(k.isControlDown() && k.getCode()==KeyCode.V){
 					this.cmdM.executeCommand(new CommandPaste(buffer));
+				}else if(k.isControlDown() && k.getCode()==KeyCode.Z){
+					this.cmdM.undo();
+				}else if(k.isControlDown() && k.getCode()==KeyCode.Y){
+					this.cmdM.redo();
 				}else{
 					String text = k.getText();
 					if(text.length()>0){

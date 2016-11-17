@@ -6,20 +6,25 @@ public class CommandAddText extends Command implements Reversible{
 	
 	private String text;
 	
+	private int startSelect;
 	private int endSelect;
+	private int endSelectAfterExecute;
 	
 	public CommandAddText(Buffer buffer, String text) {
 		super(buffer);
 		this.text = text;
+		this.startSelect = buffer.getStartSelect();
+		this.endSelect = buffer.getEndSelect();
 	}
 
 	public void execute() {
+		buffer.setSelect(this.startSelect, this.endSelect);
 		buffer.replaceSelection(text);
-		endSelect = buffer.getEndSelect();
+		endSelectAfterExecute = buffer.getEndSelect();
 	}
 
 	public void revert() {
-		buffer.setSelect(endSelect-text.length(), endSelect);
+		buffer.setSelect(endSelectAfterExecute-text.length(), endSelectAfterExecute);
 		buffer.remove();
 	}
 

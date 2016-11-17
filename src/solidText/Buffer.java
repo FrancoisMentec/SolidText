@@ -109,20 +109,13 @@ public class Buffer extends Observable{
 	public boolean inSelect(int pos){
 		return pos>=Math.min(startSelect, endSelect) && pos<=Math.max(startSelect, endSelect);
 	}
-
-	/*public void addText(String text) {
-		//System.out.println("Add text ["+text+"]");
-		//System.out.println("start="+startSelect+"  end="+endSelect);
-		if(startSelect!=endSelect) remove(); //Remove selection
-		this.text.insert(startSelect, text); // = this.text.substring(0, startSelect) + text + this.text.substring(endSelect);
-		startSelect += text.length();
-		endSelect = startSelect;
-		this.setChanged();
-		this.notifyObservers();
-	}*/
 	
-	//Remove the selection
-	public void removeSelection(){
+	/**
+	 * Remove the selection
+	 * @return the deleted text
+	 */
+	public String removeSelection(){
+		String deletedText = this.getSelectedText();
 		int start = getFirst();
 		int end = getLast();
 		this.text.delete(start, end);
@@ -130,6 +123,8 @@ public class Buffer extends Observable{
 		
 		this.setChanged();
 		this.notifyObservers();
+		
+		return deletedText;
 	}
 	
 	//Replace the selection
@@ -150,45 +145,33 @@ public class Buffer extends Observable{
 	 * else
 	 * 	If No param or side=LEFT remove previous
 	 * 	Else remove next
+	 * @return the deleted text
 	 */
-	public void remove(){ remove(LEFT); }
+	public String remove(){ return remove(LEFT); }
 	
-	public void remove(int side){
+	public String remove(int side){
+		String deletedText = "";
 		if(startSelect != endSelect){
-			removeSelection();
+			deletedText = removeSelection();
 			
 			this.setChanged();
 			this.notifyObservers();
 		}else if(side==LEFT && startSelect>0){
+			deletedText = this.text.substring(startSelect - 1, startSelect);
 			this.text.delete(startSelect - 1, startSelect);
 			endSelect = --startSelect;
 			
 			this.setChanged();
 			this.notifyObservers();
 		}else if(side==RIGHT && startSelect<text.length()){
+			deletedText = this.text.substring(startSelect, startSelect + 1);
 			this.text.delete(startSelect, startSelect + 1);
 			
 			this.setChanged();
 			this.notifyObservers();
 		}
+		return deletedText;
 	}
-
-	/*public void remove() {
-		startSelect = startSelect-1;
-		if(startSelect<0) startSelect = 0;
-		if(endSelect < startSelect) {
-			int t = startSelect;
-			startSelect = endSelect;
-			endSelect = t;
-		}
-		if((endSelect - startSelect) > 1) {
-			endSelect++;
-		}
-		this.text.delete(startSelect, endSelect); // = this.text.substring(0, startSelect) + this.text.substring(endSelect);
-		endSelect = startSelect;
-		this.setChanged();
-		this.notifyObservers();
-	}*/
 	
 	public String getSelectedText() {
 		String r = "";
