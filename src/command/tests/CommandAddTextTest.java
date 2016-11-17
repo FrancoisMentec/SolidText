@@ -15,30 +15,30 @@ public class CommandAddTextTest {
 	private static String testString2;
 	
 	@Before
-	public static void initTestBuffer(){
+	public void initTestBuffer(){
 		buffer = new Buffer();
 		testString = new String("test");
 		testString2 = new String("test2");
 	}
 	
 	@Test
-	public static void executeTest(){
+	public void executeTest(){
 		CommandAddText cat = new CommandAddText(buffer, testString);
 		cat.execute();
 		assertEquals(buffer.toString(), testString);
 	}
 	
 	@Test
-	public static void executeTest2(){
+	public void executeTest2(){
 		CommandAddText cat1 = new CommandAddText(buffer, testString);
-		CommandAddText cat2 = new CommandAddText(buffer, testString2);
 		cat1.execute();
+		CommandAddText cat2 = new CommandAddText(buffer, testString2);
 		cat2.execute();
 		assertEquals(buffer.toString(), testString+testString2);
 	}
 	
 	@Test
-	public static void revertTest(){
+	public void revertTest(){
 		CommandAddText cat = new CommandAddText(buffer, testString);
 		cat.execute();
 		cat.revert();
