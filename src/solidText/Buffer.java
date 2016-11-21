@@ -86,7 +86,7 @@ public class Buffer extends Observable{
 		return endSelect;
 	}
 	
-	public void setSelect(int start,int end){
+	public void setSelect(int start, int end){
 		//System.out.println("start="+startSelect+"  end="+endSelect);
 		if(start<0) start = 0;
 		if(start>text.length()) start = text.length();
