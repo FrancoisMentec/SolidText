@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandCopy extends Command {
+public class CommandCopy extends Command implements Recordable {
 
 	public CommandCopy(Buffer buffer) {
 		super(buffer);

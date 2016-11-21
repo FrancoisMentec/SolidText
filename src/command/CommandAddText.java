@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandAddText extends Command implements Reversible{
+public class CommandAddText extends Command implements Reversible, Recordable{
 	
 	private String text;
 	

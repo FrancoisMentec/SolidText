@@ -22,7 +22,6 @@ public class CommandMove extends Command{
 		}else if(direction==DOWN){
 			System.out.println("Not implemented");
 		}else if(direction==END){
-			System.out.println("plop");
 			buffer.setSelect(buffer.getLength(), buffer.getLength());
 		}
 	}
