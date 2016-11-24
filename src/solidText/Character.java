@@ -1,5 +1,6 @@
 package solidText;
 
+
 public class Character {
 	private char character;
 	private Character previous;
