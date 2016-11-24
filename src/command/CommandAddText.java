@@ -30,4 +30,8 @@ public class CommandAddText extends Command implements Reversible, Recordable{
 		buffer.replaceSelection(this.oldContent);
 	}
 
+	public Command copy() {
+		return new CommandAddText(buffer, text);
+	}
+
 }

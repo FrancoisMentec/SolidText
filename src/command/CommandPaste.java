@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandPaste extends Command implements Reversible{
+public class CommandPaste extends Command implements Reversible, Recordable{
 	
 	private String content;
 	private String oldContent;
@@ -25,6 +25,10 @@ public class CommandPaste extends Command implements Reversible{
 	public void revert() {
 		buffer.setSelect(position, position+content.length());
 		buffer.replaceSelection(oldContent);
+	}
+
+	public Command copy() {
+		return new CommandPaste(buffer);
 	}
 
 }

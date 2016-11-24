@@ -6,6 +6,7 @@ import java.util.Observer;
 import command.Command;
 import command.CommandAddText;
 import command.CommandCopy;
+import command.CommandExecuteMacro;
 import command.CommandManager;
 import command.CommandMove;
 import command.CommandMoveSelect;
@@ -82,21 +83,23 @@ public class TextEditor implements Observer{
 				this.cmdM.executeCommand(new CommandRemove(buffer, CommandRemove.LEFT));
 			}else if(k.getCode()==KeyCode.DELETE){
 				this.cmdM.executeCommand(new CommandRemove(buffer, CommandRemove.RIGHT));
+			}else if(k.isControlDown() && k.getCode()==KeyCode.C){
+				this.cmdM.executeCommand(new CommandCopy(buffer));
+			}else if(k.isControlDown() && k.getCode()==KeyCode.V){
+				this.cmdM.executeCommand(new CommandPaste(buffer));
+			}else if(k.isControlDown() && k.getCode()==KeyCode.Z){
+				this.cmdM.undo();
+			}else if(k.isControlDown() && k.getCode()==KeyCode.Y){
+				this.cmdM.redo();
+			}else if(k.isAltDown() && k.getText().length()==1 && "0123456789".contains(k.getText())){
+				this.cmdM.toggleCurrentMacro(Integer.parseInt(k.getText()));
+			}else if(k.isControlDown() && k.getText().length()==1 && "0123456789".contains(k.getText())){
+				this.cmdM.executeCommand(new CommandExecuteMacro(buffer, cmdM, Integer.parseInt(k.getText())));
 			}else{
-				if(k.isControlDown() && k.getCode()==KeyCode.C){
-					this.cmdM.executeCommand(new CommandCopy(buffer));
-				}else if(k.isControlDown() && k.getCode()==KeyCode.V){
-					this.cmdM.executeCommand(new CommandPaste(buffer));
-				}else if(k.isControlDown() && k.getCode()==KeyCode.Z){
-					this.cmdM.undo();
-				}else if(k.isControlDown() && k.getCode()==KeyCode.Y){
-					this.cmdM.redo();
-				}else{
-					String text = k.getText();
-					if(text.length()>0){
-						if(k.isShiftDown()) text = text.toUpperCase();
-						this.cmdM.executeCommand(new CommandAddText(buffer, text));
-					}
+				String text = k.getText();
+				if(text.length()>0){
+					if(k.isShiftDown()) text = text.toUpperCase();
+					this.cmdM.executeCommand(new CommandAddText(buffer, text));
 				}
 			}
 		}

@@ -2,7 +2,7 @@ package command;
 
 import solidText.Buffer;
 
-public class CommandMoveSelect extends Command{
+public class CommandMoveSelect extends Command implements Recordable{
 	
 	private int direction;
 
@@ -11,7 +11,6 @@ public class CommandMoveSelect extends Command{
 		this.direction = direction;
 	}
 
-	@Override
 	public void execute() {
 		if(direction==LEFT){
 			buffer.setSelect(buffer.getStartSelect(), buffer.getEndSelect()-1);
@@ -22,6 +21,10 @@ public class CommandMoveSelect extends Command{
 		}else if(direction==DOWN){
 			System.out.println("Not implemented");
 		}
+	}
+
+	public Command copy() {
+		return new CommandMoveSelect(buffer, direction);
 	}
 
 }

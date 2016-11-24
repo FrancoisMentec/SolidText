@@ -28,4 +28,10 @@ public class CommandRemove extends Command implements Reversible, Recordable{
 		buffer.setSelect(this.selectAfterExecute, this.selectAfterExecute);
 		buffer.replaceSelection(this.oldContent);
 	}
+
+	public Command copy() {
+		return new CommandRemove(buffer, side);
+	}
+	
+	
 }

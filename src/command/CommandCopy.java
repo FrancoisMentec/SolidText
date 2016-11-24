@@ -15,4 +15,8 @@ public class CommandCopy extends Command implements Recordable {
 			ClipboardManager.setContent(content);
 		}
 	}
+
+	public Command copy() {
+		return new CommandCopy(buffer);
+	}
 }

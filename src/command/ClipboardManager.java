@@ -3,7 +3,7 @@ package command;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
-public class ClipboardManager {
+public abstract class ClipboardManager {
 	
 	private static Clipboard clipboard = Clipboard.getSystemClipboard();
 	
