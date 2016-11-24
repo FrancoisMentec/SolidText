@@ -91,6 +91,8 @@ public class TextEditor implements Observer{
 				this.cmdM.undo();
 			}else if(k.isControlDown() && k.getCode()==KeyCode.Y){
 				this.cmdM.redo();
+			}else if(k.isControlDown() && k.getCode()==KeyCode.A){
+				this.cmdM.executeCommand(new CommandMoveSelect(buffer, Command.ALL));
 			}else if(k.isAltDown() && k.getText().length()==1 && "0123456789".contains(k.getText())){
 				this.cmdM.toggleCurrentMacro(Integer.parseInt(k.getText()));
 			}else if(k.isControlDown() && k.getText().length()==1 && "0123456789".contains(k.getText())){

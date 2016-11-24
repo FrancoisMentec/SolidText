@@ -21,6 +21,8 @@ public class CommandMoveSelect extends Command implements Recordable {
 			System.out.println("Not implemented");
 		} else if (direction == DOWN) {
 			System.out.println("Not implemented");
+		} else if (direction == ALL) {
+			buffer.setSelect(0, buffer.getLength());
 		}
 	}
 
