@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import command.Command;
 import command.Recordable;
 
+// Act as Caretaker for the Memento design pattern (used for macros) 
+
 public class Macro {
 	private ArrayList<Command> commands;
 	
@@ -20,7 +22,7 @@ public class Macro {
 		if(command instanceof Recordable){
 			commands.add(command);
 		}else{
-			System.out.println("Erreure, tentative d'ajout d'une command non Recordable à une macro");
+			System.out.println("Erreur, tentative d'ajout d'une command non Recordable à une macro");
 		}
 	}
 	

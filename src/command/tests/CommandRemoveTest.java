@@ -39,7 +39,7 @@ public class CommandRemoveTest {
 	
 	@Test
 	public void executeTest3(){
-		String expectedResult = "tet";
+		String expectedResult = "tst";
 		buffer.replaceSelection(test);
 		buffer.setSelect(2, 2);
 		CommandRemove removecmd = new CommandRemove(buffer, Command.LEFT);
