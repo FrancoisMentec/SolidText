@@ -109,7 +109,9 @@ public class TextEditor implements Observer {
 				String text = k.getText();
 				if (text.length() > 0) {
 					if (k.isShiftDown())
-						text = text.toUpperCase();
+						text = TextModifier.shift(text);
+					else if (k.isAltDown())
+						text = TextModifier.alt(text);
 					this.cmdM.executeCommand(new CommandAddText(buffer, text));
 				}
 			}
