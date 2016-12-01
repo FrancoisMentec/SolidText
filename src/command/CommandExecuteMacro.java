@@ -18,6 +18,7 @@ public class CommandExecuteMacro extends Command implements Recordable{
 	public void execute() {
 		Macro macro = MacroManager.get(this.macro);
 		for(int i=0;i<macro.size();i++){
+			Recordable command = (Recordable) macro.get(i);
 			cmdM.executeCommand(((Recordable) macro.get(i)).copy());
 		}
 	}

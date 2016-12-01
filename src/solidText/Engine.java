@@ -3,6 +3,7 @@ package solidText;
 public interface Engine {
 	
 	// Clipboard, Copy, Cut, Paste are managed by ClipboardManager
+	// TODO : copy, cut, paste methods
 	
 	/**
 	 * Return the text buffer
@@ -22,6 +23,12 @@ public interface Engine {
 	 * @param substring the text to insert
 	 */
 	public void replaceSelection(String substring);
+	
+	/**
+	 * Self explained
+	 * @param start index of the start of the selection
+	 * @param stop index of the end of the selection
+	 */
 	public void setSelect(int start, int stop);
 
 }

@@ -1,5 +1,7 @@
 package command;
 
+import Memento.Memento;
+import Memento.MementoAddText;
 import solidText.Buffer;
 
 public class CommandAddText extends Command implements Reversible, Recordable{
@@ -32,6 +34,19 @@ public class CommandAddText extends Command implements Reversible, Recordable{
 
 	public Command copy() {
 		return new CommandAddText(buffer, text);
+	}
+
+	public void setMemento(Memento memento) {
+		MementoAddText temp = (MementoAddText) memento;
+		startSelect = temp.getStartSelect();
+		endSelect = temp.getEndSelect();
+		oldContent = temp.getOldContent();
+		endSelectAfterExecute = temp.getEndSelectAfterExecute();
+		text = temp.getText();
+	}
+
+	public Memento getMemento() {
+		return new MementoAddText(text, startSelect, endSelect, oldContent, endSelectAfterExecute);
 	}
 
 }
