@@ -93,6 +93,9 @@ public class TextEditor implements Observer {
 				this.cmdM.executeCommand(new CommandRemove(buffer, CommandRemove.RIGHT));
 			} else if (k.isControlDown() && k.getCode() == KeyCode.C) {
 				this.cmdM.executeCommand(new CommandCopy(buffer));
+			} else if (k.isControlDown() && k.getCode() == KeyCode.X) {
+				this.cmdM.executeCommand(new CommandCopy(buffer));
+				this.cmdM.executeCommand(new CommandRemove(buffer, CommandRemove.SELECT));
 			} else if (k.isControlDown() && k.getCode() == KeyCode.V) {
 				this.cmdM.executeCommand(new CommandPaste(buffer));
 			} else if (k.isControlDown() && k.getCode() == KeyCode.Z) {

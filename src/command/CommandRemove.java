@@ -3,7 +3,7 @@ package command;
 import solidText.Buffer;
 
 public class CommandRemove extends Command implements Reversible, Recordable{
-	public static final int LEFT = 0, RIGHT = 1;
+	public static final int LEFT = 0, RIGHT = 1, SELECT = 2;
 	
 	private int side;
 	private int startSelect;
@@ -20,7 +20,11 @@ public class CommandRemove extends Command implements Reversible, Recordable{
 
 	public void execute() {
 		buffer.setSelect(this.startSelect, this.endSelect);
-		this.oldContent = buffer.remove(side);
+		if(this.side==SELECT){
+			this.oldContent = buffer.removeSelection();
+		}else{
+			this.oldContent = buffer.remove(side);
+		}
 		this.selectAfterExecute = buffer.getStartSelect();
 	}
 
