@@ -1,6 +1,6 @@
 package command;
 
-import Memento.Memento;
+import memento.Memento;
 
 // A command that implement this interface is recordable as part of a macro
 // Recordable Commands should save theirs data in order to be executed again when we play the macro (Memento)

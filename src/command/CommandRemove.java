@@ -1,5 +1,7 @@
 package command;
 
+import memento.Memento;
+import memento.MementoRemove;
 import solidText.Buffer;
 
 public class CommandRemove extends Command implements Reversible, Recordable{
@@ -16,6 +18,10 @@ public class CommandRemove extends Command implements Reversible, Recordable{
 		this.side = side;
 		this.startSelect = buffer.getStartSelect();
 		this.endSelect = buffer.getEndSelect();
+	}
+	
+	public CommandRemove(Buffer buffer) {
+		super(buffer);
 	}
 
 	public void execute() {
@@ -34,7 +40,16 @@ public class CommandRemove extends Command implements Reversible, Recordable{
 	}
 
 	public Command copy() {
-		return new CommandRemove(buffer, side);
+		return new CommandRemove(buffer);
+	}
+
+	public void setMemento(Memento memento) {
+		MementoRemove temp = (MementoRemove) memento;
+		this.side = temp.getSide();
+	}
+
+	public Memento getMemento() {
+		return new MementoRemove(side);
 	}
 	
 	

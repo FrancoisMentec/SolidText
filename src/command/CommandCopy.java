@@ -1,5 +1,7 @@
 package command;
 
+import memento.Memento;
+import memento.MementoCopy;
 import solidText.Buffer;
 
 public class CommandCopy extends Command implements Recordable {
@@ -18,5 +20,13 @@ public class CommandCopy extends Command implements Recordable {
 
 	public Command copy() {
 		return new CommandCopy(buffer);
+	}
+
+	public void setMemento(Memento memento) {
+		// Nothing to do
+	}
+
+	public Memento getMemento() {
+		return new MementoCopy();
 	}
 }

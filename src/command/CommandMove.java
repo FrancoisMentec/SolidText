@@ -1,5 +1,7 @@
 package command;
 
+import memento.Memento;
+import memento.MementoMove;
 import solidText.Buffer;
 
 public class CommandMove extends Command implements Recordable{
@@ -9,6 +11,10 @@ public class CommandMove extends Command implements Recordable{
 	public CommandMove(Buffer buffer, int direction) {
 		super(buffer);
 		this.direction = direction;
+	}
+	
+	public CommandMove(Buffer buffer) {
+		super(buffer);
 	}
 
 	@Override
@@ -27,7 +33,15 @@ public class CommandMove extends Command implements Recordable{
 	}
 
 	public Command copy() {
-		return new CommandMove(buffer, direction);
+		return new CommandMove(buffer);
+	}
+
+	public void setMemento(Memento memento) {
+		this.direction = ((MementoMove) memento).getDirection();
+	}
+
+	public Memento getMemento() {
+		return new MementoMove(direction);
 	}
 
 }

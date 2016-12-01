@@ -1,5 +1,7 @@
 package command;
 
+import memento.Memento;
+import memento.MementoPaste;
 import solidText.Buffer;
 
 public class CommandPaste extends Command implements Reversible, Recordable{
@@ -29,6 +31,16 @@ public class CommandPaste extends Command implements Reversible, Recordable{
 
 	public Command copy() {
 		return new CommandPaste(buffer);
+	}
+
+	public void setMemento(Memento memento) {
+		this.content = new String(((MementoPaste) memento).getContent());
+		this.oldContent = new String(((MementoPaste) memento).getOldContent());
+		this.position = ((MementoPaste) memento).getPosition();
+	}
+
+	public Memento getMemento() {
+		return new MementoPaste(content, oldContent, position);
 	}
 
 }

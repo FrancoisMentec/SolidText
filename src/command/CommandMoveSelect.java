@@ -1,5 +1,7 @@
 package command;
 
+import memento.Memento;
+import memento.MementoMove;
 import solidText.Buffer;
 
 public class CommandMoveSelect extends Command implements Recordable {
@@ -9,6 +11,10 @@ public class CommandMoveSelect extends Command implements Recordable {
 	public CommandMoveSelect(Buffer buffer, int direction) {
 		super(buffer);
 		this.direction = direction;
+	}
+	
+	public CommandMoveSelect(Buffer buffer) {
+		super(buffer);
 	}
 
 	public void execute() {
@@ -28,6 +34,14 @@ public class CommandMoveSelect extends Command implements Recordable {
 
 	public Command copy() {
 		return new CommandMoveSelect(buffer, direction);
+	}
+	
+	public void setMemento(Memento memento) {
+		this.direction = ((MementoMove) memento).getDirection();
+	}
+
+	public Memento getMemento() {
+		return new MementoMove(direction);
 	}
 
 }

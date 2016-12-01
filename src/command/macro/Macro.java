@@ -4,14 +4,16 @@ import java.util.ArrayList;
 
 import command.Command;
 import command.Recordable;
+import javafx.util.Pair;
+import memento.Memento;
 
 // Act as Caretaker for the Memento design pattern (used for macros) 
 
 public class Macro {
-	private ArrayList<Command> commands;
+	private ArrayList<Pair<Recordable, Memento>> commands; 
 	
 	public Macro(){
-		commands = new ArrayList<Command>();
+		commands = new ArrayList<>();
 	}
 	
 	public void reset(){
@@ -20,13 +22,14 @@ public class Macro {
 	
 	public void addCommand(Command command){
 		if(command instanceof Recordable){
-			commands.add(command);
+			Recordable recCmd = (Recordable) command;
+			commands.add(new Pair<Recordable, Memento>(recCmd, recCmd.getMemento()));
 		}else{
-			System.out.println("Erreur, tentative d'ajout d'une command non Recordable à une macro");
+			System.err.println("Error, non-recordable commands can not be part of a macro");
 		}
 	}
 	
-	public Command get(int i){
+	public Pair<Recordable, Memento> get(int i) {
 		return commands.get(i);
 	}
 	
