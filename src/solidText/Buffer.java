@@ -2,7 +2,7 @@ package solidText;
 
 import java.util.Observable;
 
-public class Buffer extends Observable{
+public class Buffer extends Observable implements Engine{
 	public static final String CSS_STYLE = "<style>"
 			+ "body{"
 				+ "white-space: pre;"
@@ -127,6 +127,7 @@ public class Buffer extends Observable{
 		return deletedText;
 	}
 	
+
 	//Replace the selection
 	public void replaceSelection(String text){
 		int start = getFirst();
@@ -259,6 +260,10 @@ public class Buffer extends Observable{
 		//Concat�nation du contenu avec le reste de la vue
 		html = "<html>" + CSS_STYLE + "<body>" + html + "</body></html>";
 		return html;
+	}
+
+	public StringBuffer getBuffer() {
+		return this.text;
 	}
 	
 }
