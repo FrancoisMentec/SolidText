@@ -2,7 +2,7 @@ package solidText;
 
 import java.util.Observable;
 
-public class Buffer extends Observable implements Engine{
+public class EditorEngine extends Observable implements Engine{
 	public static final String CSS_STYLE = "<style>"
 			+ "body{"
 				+ "white-space: pre;"
@@ -60,12 +60,12 @@ public class Buffer extends Observable implements Engine{
 	
 	public static final int LEFT = 0, RIGHT = 1;
 	
-	private StringBuffer text;
+	private StringBuffer buffer;
 	private int startSelect = 0;
 	private int endSelect = 0;
 	
-	public Buffer(){
-		text = new StringBuffer("");
+	public EditorEngine(){
+		buffer = new StringBuffer("");
 	}
 	
 	public int getStartSelect() {
@@ -73,6 +73,7 @@ public class Buffer extends Observable implements Engine{
 	}
 	
 	//Get the first select pos encounter (start or end)
+	
 	public int getFirst(){
 		return Math.min(this.startSelect, this.endSelect);
 	}
@@ -89,9 +90,9 @@ public class Buffer extends Observable implements Engine{
 	public void setSelect(int start, int end){
 		//System.out.println("start="+startSelect+"  end="+endSelect);
 		if(start<0) start = 0;
-		if(start>text.length()) start = text.length();
+		if(start>buffer.length()) start = buffer.length();
 		if(end<0) end = 0;
-		if(end>text.length()) end = text.length();
+		if(end>buffer.length()) end = buffer.length();
 		startSelect = start;
 		endSelect = end;
 		this.setChanged();
@@ -99,11 +100,11 @@ public class Buffer extends Observable implements Engine{
 	}
 	
 	public int getLength() {
-		return text.length();
+		return buffer.length();
 	}
 	
 	public String toString(){
-		return text.toString();
+		return buffer.toString();
 	}
 	
 	public boolean inSelect(int pos){
@@ -118,7 +119,7 @@ public class Buffer extends Observable implements Engine{
 		String deletedText = this.getSelectedText();
 		int start = getFirst();
 		int end = getLast();
-		this.text.delete(start, end);
+		this.buffer.delete(start, end);
 		startSelect = endSelect = start;
 		
 		this.setChanged();
@@ -132,8 +133,8 @@ public class Buffer extends Observable implements Engine{
 	public void replaceSelection(String text){
 		int start = getFirst();
 		int end = getLast();
-		this.text.delete(start, end);
-		this.text.insert(start, text);
+		this.buffer.delete(start, end);
+		this.buffer.insert(start, text);
 		startSelect = endSelect = start + text.length();
 		
 		this.setChanged();
@@ -158,15 +159,15 @@ public class Buffer extends Observable implements Engine{
 			this.setChanged();
 			this.notifyObservers();
 		}else if(side==LEFT && startSelect>0){
-			deletedText = this.text.substring(startSelect - 1, startSelect);
-			this.text.delete(startSelect - 1, startSelect);
+			deletedText = this.buffer.substring(startSelect - 1, startSelect);
+			this.buffer.delete(startSelect - 1, startSelect);
 			endSelect = --startSelect;
 			
 			this.setChanged();
 			this.notifyObservers();
-		}else if(side==RIGHT && startSelect<text.length()){
-			deletedText = this.text.substring(startSelect, startSelect + 1);
-			this.text.delete(startSelect, startSelect + 1);
+		}else if(side==RIGHT && startSelect<buffer.length()){
+			deletedText = this.buffer.substring(startSelect, startSelect + 1);
+			this.buffer.delete(startSelect, startSelect + 1);
 			
 			this.setChanged();
 			this.notifyObservers();
@@ -179,11 +180,16 @@ public class Buffer extends Observable implements Engine{
 		int start = Math.min(startSelect, endSelect);
 		int end = Math.max(startSelect, endSelect);
 		if(end-start != 0){
-			r = text.substring(start, end);
+			r = buffer.substring(start, end);
 		}
 		return r;
 	}
 
+	
+	/**
+	 * Generate the HTML representation of the buffer
+	 * @return the HTML
+	 */
 	public String toHtml() {
 		boolean inSelect = false;
 		boolean currentLine = false;
@@ -197,8 +203,8 @@ public class Buffer extends Observable implements Engine{
 			currentLine = true;
 		}
 		
-		for(int i=0;i<text.length();i++){
-			char c = text.charAt(i);
+		for(int i=0;i<buffer.length();i++){
+			char c = buffer.charAt(i);
 			
 			//System.out.println("i = "+i+" s = "+startSelect+" e = "+endSelect);
 			
@@ -263,7 +269,7 @@ public class Buffer extends Observable implements Engine{
 	}
 
 	public StringBuffer getBuffer() {
-		return this.text;
+		return this.buffer;
 	}
 	
 }

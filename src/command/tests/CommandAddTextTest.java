@@ -6,17 +6,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import command.CommandAddText;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandAddTextTest {
 	
-	private static Buffer buffer;
+	private static EditorEngine buffer;
 	private static String testString;
 	private static String testString2;
 	
 	@Before
 	public void initTestBuffer(){
-		buffer = new Buffer();
+		buffer = new EditorEngine();
 		testString = new String("test");
 		testString2 = new String("test2");
 	}

@@ -18,13 +18,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
 
 public class TextEditor implements Observer {
-	private Buffer buffer;
+	private EditorEngine buffer;
 	private CommandManager cmdM;
 	private WebView view;
 
 	public TextEditor() {
 		cmdM = new CommandManager();
-		buffer = new Buffer();
+		buffer = new EditorEngine();
 		buffer.addObserver(this);
 
 		view = new WebView();

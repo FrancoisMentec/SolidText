@@ -7,18 +7,18 @@ import org.junit.Test;
 
 import command.ClipboardManager;
 import command.CommandCopy;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandCopyTest {
 	
-	private Buffer buffer;
+	private EditorEngine buffer;
 	private CommandCopy cmdCopy;
 	
 	private final String test = "test copy";
 	
 	@Before
 	public void initTests(){
-		buffer = new Buffer();
+		buffer = new EditorEngine();
 		cmdCopy = new CommandCopy(buffer);
 	}
 	

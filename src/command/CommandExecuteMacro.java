@@ -5,21 +5,21 @@ import command.macro.MacroManager;
 import javafx.util.Pair;
 import memento.Memento;
 import memento.MementoExecuteMacro;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandExecuteMacro extends Command implements Recordable{
 
 	private CommandManager cmdM;
 	private int macro;
 	
-	public CommandExecuteMacro(Buffer buffer, CommandManager cmdM, int macro) {
-		super(buffer);
+	public CommandExecuteMacro(EditorEngine editorEngine, CommandManager cmdM, int macro) {
+		super(editorEngine);
 		this.cmdM = cmdM;
 		this.macro = macro;
 	}
 	
-	public CommandExecuteMacro(Buffer buffer, CommandManager cmdM) {
-		super(buffer);
+	public CommandExecuteMacro(EditorEngine editorEngine, CommandManager cmdM) {
+		super(editorEngine);
 		this.cmdM = cmdM;
 	}
 
@@ -34,7 +34,7 @@ public class CommandExecuteMacro extends Command implements Recordable{
 	}
 
 	public Command copy() {
-		return new CommandExecuteMacro(buffer, cmdM);
+		return new CommandExecuteMacro(editorEngine, cmdM);
 	}
 
 	public void setMemento(Memento memento) {

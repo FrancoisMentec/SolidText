@@ -7,16 +7,16 @@ import org.junit.Test;
 
 import command.Command;
 import command.CommandRemove;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandRemoveTest {
 	
-	private Buffer buffer;
+	private EditorEngine buffer;
 	private String test = "test";
 	
 	@Before
 	public void initTests(){
-		buffer = new Buffer();
+		buffer = new EditorEngine();
 	}
 	
 	@Test

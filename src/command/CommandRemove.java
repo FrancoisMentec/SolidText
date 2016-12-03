@@ -2,7 +2,7 @@ package command;
 
 import memento.Memento;
 import memento.MementoRemove;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandRemove extends Command implements Reversible, Recordable{
 	public static final int LEFT = 0, RIGHT = 1, SELECT = 2;
@@ -13,34 +13,34 @@ public class CommandRemove extends Command implements Reversible, Recordable{
 	private String oldContent;
 	private int selectAfterExecute;
 	
-	public CommandRemove(Buffer buffer, int side) {
-		super(buffer);
+	public CommandRemove(EditorEngine editorEngine, int side) {
+		super(editorEngine);
 		this.side = side;
-		this.startSelect = buffer.getStartSelect();
-		this.endSelect = buffer.getEndSelect();
+		this.startSelect = editorEngine.getStartSelect();
+		this.endSelect = editorEngine.getEndSelect();
 	}
 	
-	public CommandRemove(Buffer buffer) {
-		super(buffer);
+	public CommandRemove(EditorEngine editorEngine) {
+		super(editorEngine);
 	}
 
 	public void execute() {
-		buffer.setSelect(this.startSelect, this.endSelect);
+		editorEngine.setSelect(this.startSelect, this.endSelect);
 		if(this.side==SELECT){
-			this.oldContent = buffer.removeSelection();
+			this.oldContent = editorEngine.removeSelection();
 		}else{
-			this.oldContent = buffer.remove(side);
+			this.oldContent = editorEngine.remove(side);
 		}
-		this.selectAfterExecute = buffer.getStartSelect();
+		this.selectAfterExecute = editorEngine.getStartSelect();
 	}
 
 	public void revert() {
-		buffer.setSelect(this.selectAfterExecute, this.selectAfterExecute);
-		buffer.replaceSelection(this.oldContent);
+		editorEngine.setSelect(this.selectAfterExecute, this.selectAfterExecute);
+		editorEngine.replaceSelection(this.oldContent);
 	}
 
 	public Command copy() {
-		return new CommandRemove(buffer);
+		return new CommandRemove(editorEngine);
 	}
 
 	public void setMemento(Memento memento) {

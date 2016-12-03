@@ -2,38 +2,38 @@ package command;
 
 import memento.Memento;
 import memento.MementoMove;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandMoveSelect extends Command implements Recordable {
 
 	private int direction;
 
-	public CommandMoveSelect(Buffer buffer, int direction) {
-		super(buffer);
+	public CommandMoveSelect(EditorEngine editorEngine, int direction) {
+		super(editorEngine);
 		this.direction = direction;
 	}
 	
-	public CommandMoveSelect(Buffer buffer) {
+	public CommandMoveSelect(EditorEngine buffer) {
 		super(buffer);
 	}
 
 	public void execute() {
 		if (direction == LEFT) {
-			buffer.setSelect(buffer.getStartSelect(), buffer.getEndSelect() - 1);
+			editorEngine.setSelect(editorEngine.getStartSelect(), editorEngine.getEndSelect() - 1);
 		} else if (direction == RIGHT) {
-			if (buffer.getEndSelect() < buffer.getLength())
-				buffer.setSelect(buffer.getStartSelect(), buffer.getEndSelect() + 1);
+			if (editorEngine.getEndSelect() < editorEngine.getLength())
+				editorEngine.setSelect(editorEngine.getStartSelect(), editorEngine.getEndSelect() + 1);
 		} else if (direction == UP) {
 			System.out.println("Not implemented");
 		} else if (direction == DOWN) {
 			System.out.println("Not implemented");
 		} else if (direction == ALL) {
-			buffer.setSelect(0, buffer.getLength());
+			editorEngine.setSelect(0, editorEngine.getLength());
 		}
 	}
 
 	public Command copy() {
-		return new CommandMoveSelect(buffer, direction);
+		return new CommandMoveSelect(editorEngine, direction);
 	}
 	
 	public void setMemento(Memento memento) {

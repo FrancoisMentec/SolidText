@@ -2,7 +2,7 @@ package command;
 
 import memento.Memento;
 import memento.MementoAddText;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandAddText extends Command implements Reversible, Recordable{
 	
@@ -13,33 +13,32 @@ public class CommandAddText extends Command implements Reversible, Recordable{
 	private String oldContent;
 	private int endSelectAfterExecute;
 	
-	public CommandAddText(Buffer buffer, String text) {
-		super(buffer);
+	public CommandAddText(EditorEngine editorEngine, String text) {
+		super(editorEngine);
 		this.text = text;
 	}
 	
-	public CommandAddText(Buffer buffer) {
-		super(buffer);
+	public CommandAddText(EditorEngine editorEngine) {
+		super(editorEngine);
 	}
 
 	public void execute() {
-		this.startSelect = buffer.getStartSelect();
-		this.endSelect = buffer.getEndSelect();
-		System.out.println("AddText select " + startSelect + " end " + endSelect);
-		this.oldContent = buffer.getSelectedText();
-		buffer.setSelect(this.startSelect, this.endSelect);
-		buffer.replaceSelection(text);
-		endSelectAfterExecute = buffer.getEndSelect();
+		this.startSelect = editorEngine.getStartSelect();
+		this.endSelect = editorEngine.getEndSelect();
+		this.oldContent = editorEngine.getSelectedText();
+		editorEngine.setSelect(this.startSelect, this.endSelect);
+		editorEngine.replaceSelection(text);
+		endSelectAfterExecute = editorEngine.getEndSelect();
 	}
 
 	public void revert() {
 		System.out.println(endSelectAfterExecute-text.length() + " " + endSelectAfterExecute);
-		buffer.setSelect(endSelectAfterExecute-text.length(), endSelectAfterExecute);
-		buffer.replaceSelection(this.oldContent);
+		editorEngine.setSelect(endSelectAfterExecute-text.length(), endSelectAfterExecute);
+		editorEngine.replaceSelection(this.oldContent);
 	}
 
 	public Command copy() { //used only for macro
-		return new CommandAddText(buffer);
+		return new CommandAddText(editorEngine);
 	}
 
 	public void setMemento(Memento memento) {

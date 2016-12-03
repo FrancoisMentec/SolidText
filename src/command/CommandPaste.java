@@ -2,7 +2,7 @@ package command;
 
 import memento.Memento;
 import memento.MementoPaste;
-import solidText.Buffer;
+import solidText.EditorEngine;
 
 public class CommandPaste extends Command implements Reversible, Recordable{
 	
@@ -10,27 +10,27 @@ public class CommandPaste extends Command implements Reversible, Recordable{
 	private String oldContent;
 	private int position;
 
-	public CommandPaste(Buffer buffer) {
-		super(buffer);
+	public CommandPaste(EditorEngine editorEngine) {
+		super(editorEngine);
 		content = ClipboardManager.getContent();
-		oldContent = buffer.getSelectedText();
-		position = buffer.getFirst();
+		oldContent = editorEngine.getSelectedText();
+		position = editorEngine.getFirst();
 	}
 
 	public void execute() {
-		buffer.setSelect(position, position+oldContent.length());
-		buffer.replaceSelection(content);
+		editorEngine.setSelect(position, position+oldContent.length());
+		editorEngine.replaceSelection(content);
 		System.out.println("Paste : "+content);
 	}
 
 	@Override
 	public void revert() {
-		buffer.setSelect(position, position+content.length());
-		buffer.replaceSelection(oldContent);
+		editorEngine.setSelect(position, position+content.length());
+		editorEngine.replaceSelection(oldContent);
 	}
 
 	public Command copy() {
-		return new CommandPaste(buffer);
+		return new CommandPaste(editorEngine);
 	}
 
 	public void setMemento(Memento memento) {
